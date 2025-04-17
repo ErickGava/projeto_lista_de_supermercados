@@ -5,11 +5,6 @@ import database
 app = Flask(__name__)
 app.secret_key = "Chave_muito_segura"
 
-usuarios = {
-    'usuario' : 'senha',
-    'admin' : 'admin'
-}
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -20,7 +15,14 @@ def home():
 
 @app.route('/home/cadastro')
 def cadastro():
-    return render_template('cadastro.html')
+    if request.method == "POST":
+        form = request.form
+        if database.cadastro(form) == True:
+            return render_template('login.html')
+        else:
+            return "Ocorreu um erro ao cadastrar usuário"  # Caso contrário, exibe mensagem de erro
+    else:
+        return render_template('cadastro.html')
 
 @app.route('/home/login')
 def login():
@@ -30,6 +32,9 @@ def login():
 def criar_lista():
     return render_template('lista.html')
 
-@app.route('home/editar-lista')
+@app.route('/home/editar-lista')
 def editar_lista():
     return render_template('editar.html')
+
+if __name__ == '__main__':
+    app.run(debug=True)

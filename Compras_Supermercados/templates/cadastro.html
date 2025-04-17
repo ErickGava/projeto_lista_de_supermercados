@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+
+    <link rel="stylesheet" href="/static/estilo.css">
+    <link rel="shortcut icon" href="https://img.freepik.com/fotos-gratis/nuvens-de-estilo-anime_23-2151071686.jpg?t=st=1744918458~exp=1744922058~hmac=d022b226943d94b4f6292c5f232a377d4529db780ff0120131a44678fc880412&w=1380" type="imagem">
+</head>
+
+<body class="cadastro">
+    <div class="caixa-de-cadastro">
+        <h2>Crie sua conta</h2>
+        <!-- ADICIONAR O FORM AO INICIO -->
+        <form action="/home/cadastro" method="POST" onsubmit="return verificarSenhas()">
+            <p>Usuário</p>
+            <input type='text' name='username' placeholder="Digite seu usuário">
+            <p>E-mail</p>
+            <input type='text' name='email' placeholder="Digite seu usuário">
+            <p>Senha</p>
+            <input type='password' name='senha' placeholder="Digite sua senha">
+            <p>Confirme sua senha</p>
+            <input type='password' name='confirmar_senha' placeholder="Digite sua senha">
+            <br>
+            <br>
+            <div class="botoes">
+                <!-- <a href="">Criar conta</a> -->
+                <!-- Mudar o a para um button -->
+                <button type="submit">Criar conta</button>
+            </div>
+            <!-- FECHAR O FORMS AO FIM -->
+        </form>
+    </div>
+    <script src="/static/script.js"></script>
+</body>

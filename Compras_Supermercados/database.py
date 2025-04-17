@@ -12,8 +12,9 @@ def criar_tabelas():
     cursor.execute('''CREATE TABLE IF NOT EXISTS usuarios
                    (username TEXT, email TEXT PRIMARY KEY, senha TEXT)''')
     
-    cursor.execute(''' CREATE TABLE IF NOT EXISTS itens
-                   (id INTEGER PRIMARY KEY, nome TEXT, quantia REAL)''')
+    cursor.execute(''' CREATE TABLE IF NOT EXISTS itens     
+                   (id INTEGER PRIMARY KEY, nome TEXT, quantia REAL,
+                   valor REAL)''')
     
 def cadastro(formulario):
     conexao = conectar_banco()
@@ -46,3 +47,7 @@ def login(formulario):
     conexao.commit()
     senha_criptografada = cursor.fetchone()
     return check_password_hash(senha_criptografada[0], formulario['password'])
+
+if __name__ == '__main__':
+    criar_tabelas()
+    print("Hello, world!")
