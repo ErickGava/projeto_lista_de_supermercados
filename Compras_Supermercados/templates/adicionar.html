@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criação de Música</title>
+    <link rel="stylesheet" href="/static/estilo.css">
+    <link rel="shortcut icon" href="https://static.portaldaindustria.com.br/portaldaindustria/noticias/media/imagem_plugin/shutterstock_uiHrlzJ.jpg" type="image/x-icon">
+</head>
+
+<body class="Musica">
+    <div class="caixa-de-musica">
+        <h2>Adicione um produto</h2>
+        <form action="/home/adicionar-item" method="POST">
+            <p>Nome Do Produto</p>
+            <input type='text' name='nome_produto' placeholder="Digite o nome do produto">
+            <br>
+            <label for="quantidade">Quantidade do produto:</label>
+            <br>
+            <input type='number' name='quantidade_produto' placeholder="Digite a quantidade do produto" min="0">
+
+            </select>
+            <p>Preço do produto (R$)</p>
+            <input type='number' name='valor_produto' placeholder="Digite o preço do produto" step=".01">
+            <br>
+            <br>
+            <div class="botoes">
+
+                <button type="submit">Adicionar produto(s)</button>
+            </div>
+        </form>
+    </div>
+    <script src="/static/script.js"></script>
+</body>

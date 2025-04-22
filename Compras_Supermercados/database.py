@@ -2,7 +2,7 @@ import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 
 def conectar_banco():
-    conexao = sqlite3.connect("bancodedados")
+    conexao = sqlite3.connect("bancodedados.db")
     return conexao
 
 def criar_tabelas():
@@ -28,7 +28,7 @@ def cadastro(formulario):
         return False
     
     senha_criptografada = generate_password_hash(formulario['senha'])
-    cursor.execute('''INSERT TO usuarios(username, email, senha)
+    cursor.execute('''INSERT INTO usuarios(username, email, senha)
                    VALUES (?, ?, ?)''', (formulario['username'], formulario['email'], senha_criptografada))
     conexao.commit()
     return True
@@ -47,6 +47,13 @@ def login(formulario):
     conexao.commit()
     senha_criptografada = cursor.fetchone()
     return check_password_hash(senha_criptografada[0], formulario['password'])
+
+def adicionar_item(formulario):
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+    cursor.execute(""" INSERT INTO itens(nome, quantia, valor) VALUES (?,?,?)""", (formulario['nome_produto'], formulario['quantidade_produto'], formulario['valor_produto']))
+    conexao.commit()
+    return True
 
 if __name__ == '__main__':
     criar_tabelas()
