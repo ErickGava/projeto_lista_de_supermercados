@@ -6,7 +6,7 @@
     <title>Document</title>
 <link rel="stylesheet" href="static/estilo.css">
 </head>
-<body id="home">
+<body id="/home">
     <img id="logo-home" src="/static/img/Logo texto.png">
    
     <div class="botoes">
@@ -14,6 +14,24 @@
         <br>
     </div>
     
+    <section class="my-creations">
+        <h2>Meus Itens</h2>
+        <div class="cards-container">
+          {% for nome in Itens %}
+          <div class="card">
+              <img src="/static/img/capa1.jpeg" alt="Capa do Projeto" class="cover">
+              <div class="card-content">
+                <h3>{{item[1]}}</h3>
+                <p>Artista: {{item[2]}}</p>
+                <p>Status: {{item[3]}}</p>
+                <p>Letra: {{item[4]}}</p>
+              </div>
+              <input type="button" onclick="window.location.href='/home/editar-item/{{item[0]}}'" value="editar">
+              <input type="button" onclick="window.location.href='/home/excluir-item/{{item[0]}}'" value = "excluir">
+            </div>
+          </div>
+          {% endfor %}
+        </section>
       <br>
       <br>
   <input type="button" onclick="window.location.href='/home/excluir-usuario'" value = "excluir usuario">

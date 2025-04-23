@@ -14,7 +14,7 @@ def criar_tabelas():
     
     cursor.execute(''' CREATE TABLE IF NOT EXISTS itens     
                    (id INTEGER PRIMARY KEY, nome TEXT, quantia REAL,
-                   valor REAL)''')
+                   valor REAL, email TEXT)''')
     
 def cadastro(formulario):
     conexao = conectar_banco()
@@ -43,10 +43,18 @@ def login(formulario):
         print("Email não cadastrado! Tente Novamente!")
         return False
     
-    cursor.execute('''SELECT senha FROM usuarios WHERE email = ? ''', (formulario['email']))
+    cursor.execute('''SELECT senha FROM usuarios WHERE email = ? ''', (formulario['email'],))
     conexao.commit()
     senha_criptografada = cursor.fetchone()
     return check_password_hash(senha_criptografada[0], formulario['password'])
+
+def excluir_usuario(email):
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+    cursor.execute('''DELETE FROM usuarios WHERE email = ?''', (email,))
+    cursor.execute('''DELETE FROM musica WHERE email_usuario = ?''', (email,))
+    conexao.commit()
+    return True
 
 def adicionar_item(formulario):
     conexao = conectar_banco()
@@ -54,6 +62,14 @@ def adicionar_item(formulario):
     cursor.execute(""" INSERT INTO itens(nome, quantia, valor) VALUES (?,?,?)""", (formulario['nome_produto'], formulario['quantidade_produto'], formulario['valor_produto']))
     conexao.commit()
     return True
+
+def mostrar_produtos(email):
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+    cursor.execute(''' SELECT id, nome, quantia, valor FROM itens WHERE email = ?''', (email,))
+    conexao.commit()
+    produtos = cursor.fetchall()
+    return produtos
 
 if __name__ == '__main__':
     criar_tabelas()

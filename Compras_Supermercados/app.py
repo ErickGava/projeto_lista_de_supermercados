@@ -11,14 +11,16 @@ def index():
 
 @app.route('/home')
 def home():
-    return render_template('home.html')
+    lista_de_produtos = database.mostrar_produtos(session['email'])
+    print(lista_de_produtos)
+    return render_template('home.html', produtos = lista_de_produtos)
 
 @app.route('/home/cadastro', methods= ['GET', 'POST'])
 def cadastro():
     if request.method == "POST":
         form = request.form
         if database.cadastro(form) == True:
-            return redirect('/login')
+            return redirect('/home/login')
         else:
             return "Ocorreu um erro ao cadastrar usuário"  # Caso contrário, exibe mensagem de erro
     else:
@@ -26,7 +28,22 @@ def cadastro():
 
 @app.route('/home/login', methods=['GET', 'POST'])
 def login():
+    if request.method == "POST":
+        form = request.form
+        if database.login(form) == True:
+            session['email'] = form['email']
+            return redirect('/home')
+        else:
+            return "Ocorreu um erro ao efetuar o login!"
     return render_template('login.html')
+
+@app.route('/home/excluir-usuario', methods=['GET'])
+def excluir_usuario():
+    email = session['username']
+    if database.excluir_usuario(email):
+        return redirect(url_for('index'))
+    else:
+        return "Algo deu errado!"
 
 @app.route('/home/adicionar-item', methods=['GET', 'POST'])
 def adicionar_item():
