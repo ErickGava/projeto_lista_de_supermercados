@@ -39,23 +39,35 @@ def login():
 
 @app.route('/home/excluir-usuario', methods=['GET'])
 def excluir_usuario():
-    email = session['username']
-    if database.excluir_usuario(email):
-        return redirect(url_for('index'))
-    else:
-        return "Algo deu errado!"
+    email = session['email']
+    database.excluir_usuario(email)
+    return redirect(url_for('index'))
 
 @app.route('/home/adicionar-item', methods=['GET', 'POST'])
 def adicionar_item():
     if request.method == 'POST':
         form = request.form
-        if database.adicionar_item(form) == True:
+        if database.adicionar_item(form, session['email']) == True:
             return redirect('/home')
     return render_template('adicionar.html')
 
-@app.route('/home/editar-lista')
-def editar_lista():
-    return render_template('editar.html')
+@app.route('/home/editar-item/<int:id>', methods=['GET', 'POST'])
+def editar_item(id):
+    if request.method == 'GET':
+        produto = database.pegar_produto(id)
+        return render_template('editar.html', produto = produto)
+    if request.method == 'POST':
+        nome = request.form['nome_produto']
+        quantidade = request.form['quantidade_produto']
+        valor = request.form['valor_produto']
+        
+        database.salvar_item(nome, quantidade, valor, id)
+        return redirect('/home')
+    
+@app.route('/home/excluir-item/<int:id>')
+def excluir_item(id):
+    database.excluir_item(id)
+    return redirect('/home')
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -14,7 +14,7 @@ def criar_tabelas():
     
     cursor.execute(''' CREATE TABLE IF NOT EXISTS itens     
                    (id INTEGER PRIMARY KEY, nome TEXT, quantia REAL,
-                   valor REAL, email TEXT)''')
+                   valor REAL, email TEXT, url TEXT)''')
     
 def cadastro(formulario):
     conexao = conectar_banco()
@@ -52,24 +52,45 @@ def excluir_usuario(email):
     conexao = conectar_banco()
     cursor = conexao.cursor()
     cursor.execute('''DELETE FROM usuarios WHERE email = ?''', (email,))
-    cursor.execute('''DELETE FROM musica WHERE email_usuario = ?''', (email,))
+    cursor.execute('''DELETE FROM itens WHERE email = ?''', (email,))
     conexao.commit()
     return True
 
-def adicionar_item(formulario):
+def adicionar_item(formulario, email):
     conexao = conectar_banco()
     cursor = conexao.cursor()
-    cursor.execute(""" INSERT INTO itens(nome, quantia, valor) VALUES (?,?,?)""", (formulario['nome_produto'], formulario['quantidade_produto'], formulario['valor_produto']))
+    cursor.execute(""" INSERT INTO itens(nome, quantia, valor, email, url) VALUES (?,?,?,?,?)""", (formulario['nome_produto'], formulario['quantidade_produto'], formulario['valor_produto'], email, formulario['url']))
     conexao.commit()
     return True
+
+def excluir_item(id):
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+    cursor.execute(""" DELETE FROM itens WHERE id = ?""", (id,))
+    conexao.commit()
 
 def mostrar_produtos(email):
     conexao = conectar_banco()
     cursor = conexao.cursor()
-    cursor.execute(''' SELECT id, nome, quantia, valor FROM itens WHERE email = ?''', (email,))
+    cursor.execute(''' SELECT * FROM itens WHERE email = ?''', (email,))
     conexao.commit()
     produtos = cursor.fetchall()
     return produtos
+
+def pegar_produto(id):
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+    cursor.execute(''' SELECT * FROM itens WHERE id = ?''', (id,))
+    conexao.commit()
+    produto = cursor.fetchone()
+    return produto
+
+def salvar_item(nome, quantidade, valor, id):
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+    cursor.execute(''' UPDATE itens SET nome = ?, quantia = ?, valor = ? WHERE id = ?''', (nome, quantidade, valor, id))
+    conexao.commit()
+
 
 if __name__ == '__main__':
     criar_tabelas()

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Produto</title>
+    <link rel="stylesheet" href="/static/estilo.css">
+    <link rel="shortcut icon" href="https://static.portaldaindustria.com.br/portaldaindustria/noticias/media/imagem_plugin/shutterstock_uiHrlzJ.jpg" type="image/x-icon">
+</head>
+
+<body class="Musica">
+    <div class="caixa-de-musica">
+        <h2>Edite seu produto</h2>
+        <form action="/home/editar-item/{{produto[0]}}" method="POST">
+            <p>Nome Do Produto</p>
+            <input type='text' name='nome_produto' placeholder="Digite o nome do produto" value='{{produto[1]}}'>
+            <br>
+            <label for="quantidade">Quantidade do produto:</label>
+            <br>
+            <input type='number' name='quantidade_produto' placeholder="Digite a quantidade do produto" min="0" value="{{produto[2]}}">
+
+            </select>
+            <p>Preço do produto (R$)</p>
+            <input type='number' name='valor_produto' placeholder="Digite o preço do produto" step=".01" value="{{produto[3]}}">
+            <br>
+            <br>
+            <div class="botoes">
+
+                <button type="submit">Salvar</button>
+            </div>
+        </form>
+    </div>
+    <script src="/static/script.js"></script>
+</body>
